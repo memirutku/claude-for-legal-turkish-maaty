@@ -1,0 +1,30 @@
+# Plugin folders not in pilot — keep image small
+ai-governance-legal/
+law-student/
+legal-builder-hub/
+legal-clinic/
+product-legal/
+external_plugins/
+managed-agent-cookbooks/
+references/
+scripts/
+
+# Non-pilot skills inside pilot plugins (still selectively COPY'd in Dockerfile)
+# Skill-level filtering happens via explicit COPY; .dockerignore drops everything
+# else to keep the build context small.
+
+# Repo meta
+.git/
+.gitignore
+.github/
+.claude-plugin/
+*.md
+LICENSE
+NOTICE
+!legal_plugins/**
+
+# Local dev
+__pycache__/
+*.pyc
+.venv/
+.env

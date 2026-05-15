@@ -1,0 +1,74 @@
+name: Build and publish Skill Template Service to GHCR
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'maaty-v*'
+    paths:
+      - 'legal_plugins/**'
+      - 'Dockerfile'
+      - '.dockerignore'
+      - '.github/workflows/docker-publish.yml'
+      # Trigger when a pilot skill manifest changes
+      - 'privacy-legal/skills/pia-generation/**'
+      - 'commercial-legal/skills/review/**'
+      - 'commercial-legal/skills/nda-review/**'
+      - 'corporate-legal/skills/diligence-issue-extraction/**'
+      - 'employment-legal/skills/policy-drafting/**'
+      - 'regulatory-legal/skills/reg-feed-watcher/**'
+      - 'ip-legal/skills/cease-desist/**'
+      - 'litigation-legal/skills/demand-intake/**'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=semver,pattern={{version}},prefix=maaty-v,value=${{ github.ref_name }}
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+
+      - name: Build and push image (linux/amd64)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      # arm64 disabled initially (mirror yargi-mcp-maaty / mevzuat-mcp-maaty
+      # decision — QEMU emulation timeout risk). Prod is x86_64.
