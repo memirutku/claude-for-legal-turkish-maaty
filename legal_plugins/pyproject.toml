@@ -1,0 +1,25 @@
+[project]
+name = "legal-plugins"
+version = "0.1.0"
+description = "Maaty Skill Template Service — runs claude-for-legal-turkish skill manifests over Maaty's BYOK LLM stack"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pyyaml>=6.0",
+    "httpx>=0.28",
+    "pydantic>=2.9",
+    "python-multipart>=0.0.20",
+    # LLM provider SDKs
+    "anthropic>=0.101",
+    "openai>=2.36",
+    "google-genai>=2.2",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["legal_plugins*"]
