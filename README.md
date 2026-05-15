@@ -1,3 +1,17 @@
+> # 🍴 Maaty Fork — Packaging + Service Layer
+>
+> Bu repo, [`ZekaiSuni/claude-for-legal-turkish`](https://github.com/ZekaiSuni/claude-for-legal-turkish) deposunun **Maaty** (https://maaty.net) tarafından maintain edilen bir fork'udur. **Skill içeriği (markdown manifest'leri, instructions, çıktı örnekleri) DEĞİŞTİRİLMEZ** — Maaty'nin eklediği yalnızca paketleme ve servis altyapısıdır.
+>
+> **Maaty'nin amacı:** Bu plugin'leri Maaty production stack'inde HTTP servis (FastAPI) olarak çalıştırmak. `legal_plugins/` dizininde (Faz 6.1+'da eklenecek) skill manifest'lerini yükleyen + Maaty BYOK akışı (Gemini/OpenAI/Anthropic) ile çalışan bir servis bulunur. Kullanıcılar Maaty UI'dan ("Hukuk Skill Kütüphanesi" bölümü) skill'leri çağırır.
+>
+> **Upstream zinciri:**
+> - **Direct upstream:** [ZekaiSuni/claude-for-legal-turkish](https://github.com/ZekaiSuni/claude-for-legal-turkish) — Türk hukuku adaptasyon işinin tamamı (TBK, TTK, KVKK, HMK, İK kavramları, 145+ skill TR uyarlaması)
+> - **Original upstream:** [anthropics/claude-for-legal](https://github.com/anthropics/claude-for-legal) — Plugin/skill mimarisinin orijinali
+>
+> Tüm orijinal copyright + attribution korunur (Apache 2.0). Detay için bkz. [`NOTICE`](./NOTICE).
+
+---
+
 # Claude Legal Turkish
 
 Claude Legal Turkish, Anthropic'in açık kaynaklı **Claude for Legal** yapısını temel alan Türkiye uyarlamasıdır. Amaç, aynı plugin/skill iskeletini koruyarak hukuki içerikleri Türk hukuku, Türkiye yargı sistemi ve yerel regülasyonlar ekseninde çalışır hale getirmektir.
