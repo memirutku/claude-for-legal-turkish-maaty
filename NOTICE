@@ -1,0 +1,87 @@
+Claude for Legal Turkish — Maaty Fork
+======================================
+
+This is `memirutku/claude-for-legal-turkish-maaty`, a Maaty-maintained fork of:
+
+    Direct upstream:   https://github.com/ZekaiSuni/claude-for-legal-turkish
+    Direct upstream author: ZekaiSuni (https://github.com/ZekaiSuni)
+
+    Original upstream: https://github.com/anthropics/claude-for-legal
+    Original author:   Anthropic (https://github.com/anthropics)
+
+    License: Apache License, Version 2.0 (see LICENSE)
+
+
+About the upstream chain
+------------------------
+
+The original "Claude for Legal" plugin collection was developed and open-
+sourced by Anthropic under Apache 2.0. ZekaiSuni then adapted the entire
+plugin set for Turkish law (TBK, TTK, KVKK, HMK, İK, SPK, vs.) — this is
+the major Turkish-adaptation work that gives this codebase its value.
+
+Maaty's fork pulls from ZekaiSuni's Turkish adaptation and adds project-
+specific packaging for Maaty's production deployment. All upstream
+attribution and copyright notices are preserved unchanged.
+
+
+Maaty Modifications (this fork)
+-------------------------------
+
+Maaty's intended additions to the ZekaiSuni base are **packaging and
+service infrastructure**, not skill-content changes:
+
+* `legal_plugins/` (planned, Faz 6.1+)
+    FastAPI service that loads skill manifests from this repo and exposes
+    HTTP endpoints (`GET /skills`, `POST /skills/{id}/invoke` with SSE
+    streaming). The service uses Maaty's BYOK flow — every invoke request
+    carries a per-user `X-AI-Provider`/`X-AI-Model`/`X-AI-Key` header,
+    decrypted by Maaty backend. No long-lived API keys live in this
+    container.
+
+* `Dockerfile` + `.github/workflows/docker-publish.yml` (planned, Faz 6.1+)
+    Container image build that publishes to
+    `ghcr.io/memirutku/claude-for-legal-turkish-maaty` for Maaty's prod
+    deploy.
+
+* `NOTICE`, `README.md` fork-attribution header (this commit)
+    Provenance documentation and prominent fork attribution at the top
+    of the README so visitors see the upstream chain immediately.
+
+**Skill content (markdown manifests, instructions, output examples) is
+NOT modified** in the initial Maaty fork — ZekaiSuni's Turkish-adapted
+skills are used as-is. If Maaty later needs provider-specific prompt
+tuning (e.g. Gemini vs. Claude variants), those changes will live in
+clearly-marked Maaty-only files (`instructions-gemini.md`) without
+touching upstream files.
+
+
+Sync With Upstreams
+-------------------
+
+Maaty periodically pulls updates from both upstream sources:
+
+1. **ZekaiSuni/claude-for-legal-turkish** — primary base. Maaty rebases
+   its packaging commits onto fresh ZekaiSuni HEAD.
+
+2. **anthropics/claude-for-legal** — original upstream. When Anthropic
+   ships new skills, the typical path is ZekaiSuni adapting them for
+   Turkish law first, then Maaty pulling via path 1. If urgent, Maaty
+   may pull directly and submit a TR-adaptation PR to ZekaiSuni.
+
+See `docs/mcp-cli/upstream_sources.md` (in the Maaty main repo) for the
+current commit SHAs being tracked.
+
+
+Attribution and Credits
+-----------------------
+
+- **Original "Claude for Legal" plugin architecture, skill design, and
+  managed-agent patterns**: Anthropic.
+- **Turkish-law adaptation, KVKK/TBK/TTK/HMK terminology, Turkish legal
+  practice references, and 145+ TR skill adaptations**: ZekaiSuni.
+- **Maaty-deployment packaging (FastAPI service, GHCR image build,
+  BYOK header proxy)**: Maaty / memirutku.
+
+Maaty project: https://maaty.net
+Maaty fork maintainer: https://github.com/memirutku
