@@ -1,6 +1,6 @@
 [project]
 name = "legal-plugins"
-version = "0.1.0"
+version = "0.1.1"
 description = "Maaty Skill Template Service — runs claude-for-legal-turkish skill manifests over Maaty's BYOK LLM stack"
 requires-python = ">=3.12"
 dependencies = [

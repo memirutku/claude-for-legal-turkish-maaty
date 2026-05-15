@@ -6,7 +6,7 @@ from pathlib import Path
 class Settings:
     PLUGINS_DIR: Path = Path(os.getenv("PLUGINS_DIR", "/app/plugins"))
     SERVICE_NAME: str = "Maaty Skill Template Service"
-    VERSION: str = "0.1.0"
+    VERSION: str = "0.1.1"
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "info").lower()
     # Default models per provider — used if X-AI-Model header missing
     DEFAULT_MODELS: dict[str, str] = {

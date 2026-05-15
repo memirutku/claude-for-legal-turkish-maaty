@@ -23,16 +23,26 @@ RUN pip install --no-cache-dir -e .
 WORKDIR /app
 COPY legal_plugins /app/legal_plugins
 
-# Copy pilot skill manifests (8 skills across 7 plugins)
-# Each pilot skill ships with its own SKILL.md (and optional references/)
+# Copy pilot skill manifests (8 skills across 7 plugins) + plugin CLAUDE.md
+# profile templates (Türk hukuku kuralları — KVKK/TBK/TTK/HMK template'leri).
+# Said Sürücü 2026-05-13 "Türk Hukuku Uygulanabilirlik Raporu" tavsiyesi:
+# plugin CLAUDE.md profil katmanı service runtime'a dahil edilmeli — skill
+# instructions ÖNCESİNDE LLM system prompt'una eklenir.
 COPY privacy-legal/skills/pia-generation /app/plugins/privacy-legal/skills/pia-generation
+COPY privacy-legal/CLAUDE.md /app/plugins/privacy-legal/CLAUDE.md
 COPY commercial-legal/skills/review /app/plugins/commercial-legal/skills/review
 COPY commercial-legal/skills/nda-review /app/plugins/commercial-legal/skills/nda-review
+COPY commercial-legal/CLAUDE.md /app/plugins/commercial-legal/CLAUDE.md
 COPY corporate-legal/skills/diligence-issue-extraction /app/plugins/corporate-legal/skills/diligence-issue-extraction
+COPY corporate-legal/CLAUDE.md /app/plugins/corporate-legal/CLAUDE.md
 COPY employment-legal/skills/policy-drafting /app/plugins/employment-legal/skills/policy-drafting
+COPY employment-legal/CLAUDE.md /app/plugins/employment-legal/CLAUDE.md
 COPY regulatory-legal/skills/reg-feed-watcher /app/plugins/regulatory-legal/skills/reg-feed-watcher
+COPY regulatory-legal/CLAUDE.md /app/plugins/regulatory-legal/CLAUDE.md
 COPY ip-legal/skills/cease-desist /app/plugins/ip-legal/skills/cease-desist
+COPY ip-legal/CLAUDE.md /app/plugins/ip-legal/CLAUDE.md
 COPY litigation-legal/skills/demand-intake /app/plugins/litigation-legal/skills/demand-intake
+COPY litigation-legal/CLAUDE.md /app/plugins/litigation-legal/CLAUDE.md
 
 ENV PLUGINS_DIR=/app/plugins
 ENV PORT=8000

@@ -64,7 +64,7 @@ async def invoke_skill(
                 provider=provider,
                 api_key=x_ai_key,
                 model=model,
-                system_prompt=skill.instructions,
+                system_prompt=skill.system_prompt(),
                 user_message=request.input,
             ):
                 # Client disconnect kontrol
